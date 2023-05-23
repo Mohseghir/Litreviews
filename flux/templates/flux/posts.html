@@ -32,7 +32,6 @@
                 {% endif %}
                 <p>
                     <input type=button onclick=window.location.href="{% url 'make_review' post.id %}"; value="Créer une critique" />
-                    <input type=button onclick=window.location.href="{% url 'edit_ticket' post.id %}"; value="Modifier la demande" />
                 </p>
                 </p>
             </div>
@@ -48,7 +47,6 @@
                 <p>{{ post.headline }}</p>
                 <p>{{ post.rating }}</p>
                 <p>{{ post.body }}</p>
-                <input type=button onclick=window.location.href="{% url 'edit_review' post.id %}"; value="Modifier la critique" />
 
                 <div class="border">
                     {% if post.ticket.user == user %}

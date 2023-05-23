@@ -20,9 +20,9 @@ import authentication.views
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 urlpatterns = [
     path('', include('authentication.urls')),
+    path('', include('flux.urls')),
     path('admin/', admin.site.urls),
 ]
 

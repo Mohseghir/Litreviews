@@ -8,12 +8,16 @@
 </head>
 <body>
     <section>
-    <div class="border">
+    <div class="sidebar">
         <h1>LITReview</h1>
     </div>
-</section>
+    </section>
     {%  if user.is_authenticated %}
     <nav class="header">
+        <p>Vous êtes connecté en tant que {{ request.user }}.</p>
+        <p>
+            <a href="{% url 'flux' %}">Flux</a>
+            <a href="{% url 'posts' %}">Posts</a>
             <a href="{% url 'logout' %}">Se déconnecter</a>
         </p>
     </nav>
@@ -24,7 +28,7 @@
         {% block content %}{% endblock content %}
         </div>
     </div>
-    <section>
+    </section>
 
 
 
