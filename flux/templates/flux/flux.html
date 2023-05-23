@@ -1,0 +1,75 @@
+{% extends 'index.html' %}
+{% block content %}
+{%  if user.is_authenticated %}
+
+<div class="header">
+    <div class="case">
+        <p><input type=button onclick=window.location.href="{% url 'make_ticket'%}"; value="Demander une critique" /></p>
+    </div>
+    <div class="case">
+        <p><input type=button onclick=window.location.href="{% url 'make_review_ticket'%}"; value="Créer une critique" /></p>
+    </div>
+</div>
+<div class="content">
+
+
+
+    {% for post in posts %}
+        {% if post.content_type == "TICKET" %}
+            <div class="border">
+                <p>
+                    {% if post.user == user %}
+                        Vous avez demandé une critique
+                    {% else %}
+                        {{ post.user }} a demandé une critique
+                    {% endif %}
+                    {{ post.time_created }}
+                </p>
+                <p>{{ post.title }}</p>
+                <p>{{ post.description}}</p>
+                <p>
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}">
+                    {% endif %}
+                    {% if post.rewiews.ticket.user == user %}
+                        Vous avez déjà publié pour ce ticket
+                    {% else %}
+                        {% if post.is_reviewed == False %}
+                        <p>
+                            <input type=button onclick=window.location.href="{% url 'make_review' post.id %}"; value="Créer une critique" />
+                        </p>
+                        {% endif %}
+                    {% endif %}
+                </p>
+            </div>
+        {% else %}
+            <div class="border">
+                <p>
+                    {% if post.user == user %}
+                        Vous avez posté une critique
+                    {% else %}
+                        {{ post.user }} a posté une critique
+                    {% endif %}
+                    {{ post.time_created }}
+                </p>
+                <p>{{ post.headline }} - {{ post.rating }}</p>
+                <p>{{ post.body }}</p>
+                <div class="border">
+                    <p>
+                        Ticket - {{ post.ticket.user }}
+                        {{ post.ticket.time_created }}
+                    </p>
+                    <p>{{ post.ticket.title }}</p>
+                    <p>{{ post.ticket.description }}</p>
+                    <p>
+                        {% if post.ticket.image %}
+                            <img src="{{ post.ticket.image.url }}">
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock content %}

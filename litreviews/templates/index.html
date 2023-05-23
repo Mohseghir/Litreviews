@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>LITReviews</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <section>
+    <div class="border">
+        <h1>LITReview</h1>
+    </div>
+</section>
+    {%  if user.is_authenticated %}
+    <nav class="header">
+            <a href="{% url 'logout' %}">Se déconnecter</a>
+        </p>
+    </nav>
+    {% endif %}
+    <section>
+    <div class="border header">
+        <div class="content">
+        {% block content %}{% endblock content %}
+        </div>
+    </div>
+    <section>
+
+
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="header">
+
+    <div class="case">
+    <p>Inscrivez-vous maintenant</p>
+    <p><input type=button onclick=window.location.href="{% url 'signup'%}"; value="S'inscrire" /></p>
+    </div>
+    <div class="case">
+    <p>{{ message }}</p>
+    <form method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button type="submit" >Se connecter</button>
+    </form>
+    </div>
+</div>
+{% endblock content %}
