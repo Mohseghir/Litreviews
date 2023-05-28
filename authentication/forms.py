@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .validators import ContainsLetterValidator, ContainsNumberValidator
 
 
 class SignupForm(UserCreationForm):
@@ -9,7 +8,6 @@ class SignupForm(UserCreationForm):
         label="Mot de passe",
         strip=False,
         widget=forms.PasswordInput,
-        validators=[ContainsLetterValidator, ContainsNumberValidator],
     )
     password2 = forms.CharField(
         label="Confirmation du mot de passe",

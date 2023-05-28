@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Value, CharField
 from itertools import chain
 from .models import Ticket, Review
-from .forms import ReviewForm, TicketForm, DeleteTicketForm, DeleteReviewForm
+from .forms import ReviewForm, TicketForm
+from django.contrib import messages
 
 
 @login_required(login_url='/')
@@ -43,7 +44,7 @@ def make_ticket(request):
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            # messages.info(request, "Votre ticket vient d'être publié!")
+            messages.info(request, "Votre ticket a été publié avec succes!")
             return redirect("flux")
     return render(request, "flux/create_ticket.html", context={"form": form})
 

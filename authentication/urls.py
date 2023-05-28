@@ -13,7 +13,7 @@ urlpatterns = [
     path(
         "",
         LoginView.as_view(
-            template_name="authentication/index.html",
+            template_name="base.html",
             redirect_authenticated_user=True
         ),
         name="index",

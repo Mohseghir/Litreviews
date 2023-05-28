@@ -6,7 +6,7 @@ class ContainsNumberValidator:
         if not any(char.isdigit() for char in password):
             raise ValidationError(
                 "Le mot de passe doit contenir un chiffre",
-                code="password_no_numbers"
+                code='password_no_numbers'
             )
 
     def get_help_text(self):
