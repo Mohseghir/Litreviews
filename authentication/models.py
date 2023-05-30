@@ -8,6 +8,9 @@ class User(AbstractUser):
     AUTHOR = "AUTHOR"
     FOLLOWER = "FOLLOWER"
 
+    def has_reviewed_ticket(self, ticket):
+        return self.review_set.filter(ticket=ticket).exists()
+
     ROLE_CHOICES = (
         (AUTHOR, "Auteur"),
         (FOLLOWER, "Abonné"),

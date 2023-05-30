@@ -34,7 +34,7 @@ Bienvenue
                     {% if post.image %}
                         <img src="{{ post.image.url }}">
                     {% endif %}
-                    {% if post.rewiews.ticket.user == user %}
+                    {% if post.reviews.ticket.user == user %}
                         Vous avez déjà publié pour ce ticket
                     {% else %}
                         {% if post.is_reviewed == False %}

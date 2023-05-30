@@ -9,14 +9,12 @@ class TicketForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
-    edit_review = forms.BooleanField(widget=forms.HiddenInput, initial=True)
+    CHOICES = [(0, "0"), (1, "1"), (2, "2"), (3, "3"), (4, "4"), (5, "5")]
+    rating = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
 
     class Meta:
         model = Review
         fields = ["rating", "headline", "body"]
-
-    CHOICES = [(0, "0"), (1, "1"), (2, "2"), (3, "3"), (4, "4"), (5, "5")]
-    rating = forms.ChoiceField(label="Note", widget=forms.RadioSelect, choices=CHOICES)
 
 
 class DeleteTicketForm(forms.Form):
