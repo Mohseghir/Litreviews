@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Value, CharField
 from itertools import chain
 from .models import Ticket, Review
-from .forms import ReviewForm, TicketForm
+from .forms import ReviewForm, TicketForm, DeleteTicketForm, DeleteReviewForm
 from django.contrib import messages
 
 
@@ -36,7 +36,7 @@ def posts(request):
 
 
 @login_required(login_url='/')
-def make_ticket(request):
+def create_ticket(request):
     form = TicketForm()
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES)
@@ -50,7 +50,7 @@ def make_ticket(request):
 
 
 @login_required(login_url='/')
-def make_review(request, ticket_id):
+def create_review(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
     form = ReviewForm()
     if request.method == 'POST':
@@ -67,7 +67,7 @@ def make_review(request, ticket_id):
 
 
 @login_required(login_url="/")
-def make_review_ticket(request):
+def create_review_ticket(request):
     ticket_form = TicketForm()
     review_form = ReviewForm()
     if request.method == "POST":
@@ -88,4 +88,56 @@ def make_review_ticket(request):
         "review_form": review_form,
     }
     return render(request, "flux/create_review_ticket.html",
+                  context=context)
+
+
+@login_required
+def edit_ticket(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    edit_form = TicketForm(instance=ticket)
+    delete_form = DeleteTicketForm()
+    if request.method == "POST":
+        if "edit_ticket" in request.POST:
+            edit_form = TicketForm(request.POST, request.FILES,
+                                   instance=ticket)
+            if edit_form.is_valid():
+                edit_form.save()
+                return redirect("posts")
+        if "delete_ticket" in request.POST:
+            delete_form = DeleteTicketForm(request.POST)
+            if delete_form.is_valid():
+                ticket.delete()
+                return redirect("posts")
+    context = {
+        "edit_form": edit_form,
+        "delete_form": delete_form,
+    }
+    return render(request, "flux/edit_ticket.html",
+                  context=context)
+
+
+@login_required
+def edit_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    edit_form = ReviewForm(instance=review)
+    delete_form = DeleteReviewForm()
+    if request.method == "POST":
+        if "edit_review" in request.POST:
+            edit_form = ReviewForm(request.POST,
+                                   request.FILES,
+                                   instance=review)
+            if edit_form.is_valid():
+                edit_form.save()
+                return redirect("posts")
+        if "delete_review" in request.POST:
+            print("Check")
+            delete_form = DeleteReviewForm(request.POST)
+            if delete_form.is_valid():
+                review.delete()
+                return redirect("posts")
+    context = {
+        "edit_form": edit_form,
+        "delete_form": delete_form,
+    }
+    return render(request, "flux/edit_review.html",
                   context=context)

@@ -4,10 +4,10 @@
 
 <div class="header">
     <div class="case">
-        <p><input type=button onclick=window.location.href="{% url 'make_ticket'%}"; value="Demander une critique" /></p>
+        <p><input type=button onclick=window.location.href="{% url 'create_ticket'%}"; value="Demander une critique" /></p>
     </div>
     <div class="case">
-        <p><input type=button onclick=window.location.href="{% url 'make_review_ticket'%}"; value="Créer une critique" /></p>
+        <p><input type=button onclick=window.location.href="{% url 'create_review_ticket'%}"; value="Créer une critique" /></p>
     </div>
 </div>
 <div class="content">
@@ -31,7 +31,8 @@
                     <img src="{{ post.image.url }}">
                 {% endif %}
                 <p>
-                    <input type=button onclick=window.location.href="{% url 'make_review' post.id %}"; value="Créer une critique" />
+                    <input type=button onclick=window.location.href="{% url 'create_review' post.id %}"; value="Créer une critique" />
+                    <input type=button onclick=window.location.href="{% url 'edit_ticket' post.id %}"; value="Modifier la demande" />
                 </p>
                 </p>
             </div>
@@ -47,6 +48,7 @@
                 <p>{{ post.headline }}</p>
                 <p>{{ post.rating }}</p>
                 <p>{{ post.body }}</p>
+                <input type=button onclick=window.location.href="{% url 'edit_review' post.id %}"; value="Modifier la critique" />
 
                 <div class="border">
                     {% if post.ticket.user == user %}

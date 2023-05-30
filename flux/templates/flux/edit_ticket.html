@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Modifier ma demande de critique</h2>
+    <form method="post" enctype="multipart/form-data">
+        {{ edit_form.as_p }}
+        {% csrf_token %}
+        <button type="submit" >Sauvegarder</button>
+
+    </form>
+    <hr>
+    <h3>Voulez vous supprimer votre demande de critique ?</h3>
+    <form method="post" enctype="multipart/form-data">
+        {{ delete_form.as_p }}
+        {% csrf_token %}
+        <button type="submit" >Supprimer</button>
+    </form>
+{% endblock content %}

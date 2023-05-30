@@ -4,10 +4,10 @@
 
 <div class="header">
     <div class="case">
-        <p><input type=button onclick=window.location.href="{% url 'make_ticket'%}"; value="Demander une critique" /></p>
+        <p><input type=button onclick=window.location.href="{% url 'create_ticket'%}"; value="Demander une critique" /></p>
     </div>
     <div class="case">
-        <p><input type=button onclick=window.location.href="{% url 'make_review_ticket'%}"; value="Créer une critique" /></p>
+        <p><input type=button onclick=window.location.href="{% url 'create_review_ticket'%}"; value="Créer une critique" /></p>
     </div>
 </div>
 <div class="content">
@@ -36,7 +36,7 @@
                     {% else %}
                         {% if post.is_reviewed == False %}
                         <p>
-                            <input type=button onclick=window.location.href="{% url 'make_review' post.id %}"; value="Créer une critique" />
+                            <input type=button onclick=window.location.href="{% url 'create_review' post.id %}"; value="Créer une critique" />
                         </p>
                         {% endif %}
                     {% endif %}
