@@ -16,6 +16,8 @@ class Ticket(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
     is_reviewed = models.BooleanField(default=False)
 
+    objects = models.Manager()  # Ajout du gestionnaire d'objets par défaut
+
     def resize_image(self):
         image = Image.open(self.image)
         image.thumbnail(self.IMAGE_MAX_SIZE)
@@ -38,6 +40,7 @@ class Review(models.Model):
     headline = models.CharField(max_length=128)
     body = models.TextField(max_length=8192, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()  # Ajout du gestionnaire d'objets par défaut
 
 
 class UserFollows(models.Model):
@@ -52,6 +55,7 @@ class UserFollows(models.Model):
         on_delete=models.CASCADE,
         related_name="followed_by",
     )
+    objects = models.Manager()  # Ajout du gestionnaire d'objets par défaut
 
     class Meta:
         # ensures we don't get multiple UserFollows instances

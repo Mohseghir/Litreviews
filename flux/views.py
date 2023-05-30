@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Value, CharField
+from django.db.models import Value, CharField, Q
 from itertools import chain
 from .models import Ticket, Review, UserFollows
 from .forms import ReviewForm, TicketForm, DeleteTicketForm, DeleteReviewForm, FollowUsersForm
@@ -10,15 +10,29 @@ from authentication.models import User
 
 @login_required(login_url='/')
 def flux(request):
-    tickets = Ticket.objects.all()
-    reviews = Review.objects.all()
+    # Récupération des utilisateurs suivis par l'utilisateur connecté
+    user_following = UserFollows.objects.filter(user=request.user).values_list('followed_user', flat=True)
+
+    # Récupération des tickets liés aux utilisateurs suivis ou à l'utilisateur connecté
+    tickets = Ticket.objects.filter(
+        Q(user__in=user_following) | Q(user=request.user)
+    )
+    # Annotation du type de contenu pour les tickets
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+
+    # Récupération des critiques liées aux utilisateurs suivis ou à l'utilisateur connecté
+    reviews = Review.objects.filter(
+        Q(user__in=user_following) | Q(user=request.user)
+    )
+    # Annotation du type de contenu pour les critiques
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+
+    # Fusion des tickets et des critiques, triés par date de création décroissante
     posts = sorted(
-        chain(reviews, tickets), key=lambda post: post.time_created,
-        reverse=True
+        chain(reviews, tickets), key=lambda post: post.time_created, reverse=True
     )
 
+    # Rendu du template avec les publications filtrées
     return render(request, 'flux/flux.html', {'posts': posts})
 
 
@@ -32,6 +46,8 @@ def posts(request):
         chain(reviews, tickets), key=lambda post: post.time_created,
         reverse=True
     )
+
+    posts = list(posts)  # Convert the iterable to a list
 
     return render(request, 'flux/posts.html', {'posts': posts})
 
@@ -147,23 +163,24 @@ def edit_review(request, review_id):
 @login_required
 def follow_users(request):
     context = {}
-    form = FollowUsersForm()
     if request.method == "POST":
-        follower = request.POST["follower"]
-        try:
-            user = User.objects.get(username__exact=follower)
-        except User.DoesNotExist:
-            user = None
+        form = FollowUsersForm(request.POST)
+        if form.is_valid():
+            follower = form.cleaned_data["follower"]
+            try:
+                user = User.objects.get(username__exact=follower)
+            except User.DoesNotExist:
+                user = None
 
-        if user:
-            UserFollows.objects.create(user=request.user, followed_user=user)
-            return redirect("follow_users")
+            if user:
+                UserFollows.objects.create(user=request.user, followed_user=user)
+                return redirect("follow_users")
+    else:
+        form = FollowUsersForm()
 
     context["form"] = form
-    context["following"] = UserFollows.objects.filter(user__exact=request.user)
-    context["followed_by"] = UserFollows.objects.filter(
-        followed_user__exact=request.user
-    )
+    context["following"] = UserFollows.objects.filter(user=request.user)
+    context["followed_by"] = UserFollows.objects.filter(followed_user=request.user)
     return render(request, "flux/follow_users.html", context)
 
 
