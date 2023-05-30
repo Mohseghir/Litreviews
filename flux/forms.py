@@ -25,3 +25,7 @@ class DeleteTicketForm(forms.Form):
 
 class DeleteReviewForm(forms.Form):
     delete_review = forms.BooleanField(widget=forms.HiddenInput, initial=True)
+
+
+class FollowUsersForm(forms.Form):
+    follower = forms.CharField(max_length=100)

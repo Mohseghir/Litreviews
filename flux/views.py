@@ -2,9 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Value, CharField
 from itertools import chain
-from .models import Ticket, Review
-from .forms import ReviewForm, TicketForm, DeleteTicketForm, DeleteReviewForm
+from .models import Ticket, Review, UserFollows
+from .forms import ReviewForm, TicketForm, DeleteTicketForm, DeleteReviewForm, FollowUsersForm
 from django.contrib import messages
+from authentication.models import User
 
 
 @login_required(login_url='/')
@@ -141,3 +142,37 @@ def edit_review(request, review_id):
     }
     return render(request, "flux/edit_review.html",
                   context=context)
+
+
+@login_required
+def follow_users(request):
+    context = {}
+    form = FollowUsersForm()
+    if request.method == "POST":
+        follower = request.POST["follower"]
+        try:
+            user = User.objects.get(username__exact=follower)
+        except User.DoesNotExist:
+            user = None
+
+        if user:
+            UserFollows.objects.create(user=request.user, followed_user=user)
+            return redirect("follow_users")
+
+    context["form"] = form
+    context["following"] = UserFollows.objects.filter(user__exact=request.user)
+    context["followed_by"] = UserFollows.objects.filter(
+        followed_user__exact=request.user
+    )
+    return render(request, "flux/follow_users.html", context)
+
+
+@login_required
+def delete_follow(request, user_id):
+    user = User.objects.get(id__exact=user_id)
+    follow = UserFollows.objects.get(
+        user__exact=request.user, followed_user__exact=user
+    )
+    if follow:
+        follow.delete()
+    return redirect("follow_users")
