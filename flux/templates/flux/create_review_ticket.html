@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<html lang="fr">
-    <h2>Publier une critique</h2>
-    <form method="post" enctype="multipart/form-data">
-        {{ ticket_form.as_p }}
-        {{ review_form.as_p }}
-
-        {% csrf_token %}
-        <button type="submit" >Publier</button>
-    </form>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <div class="content">
+        <h2>Publier une critique</h2>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                {{ ticket_form.as_p }}
+            </div>
+            <div class="form-group">
+                {{ review_form.as_p }}
+            </div>
+            {% csrf_token %}
+            <button class="button" type="submit">Publier</button>
+        </form>
+    </div>
 {% endblock content %}

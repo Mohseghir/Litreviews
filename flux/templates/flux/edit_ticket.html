@@ -1,17 +1,25 @@
 {% extends 'base.html' %}
-{% block content %}
-    <h2>Modifier ma demande de critique</h2>
-    <form method="post" enctype="multipart/form-data">
-        {{ edit_form.as_p }}
-        {% csrf_token %}
-        <button type="submit" >Sauvegarder</button>
+{% load static %}
 
-    </form>
-    <hr>
-    <h3>Voulez vous supprimer votre demande de critique ?</h3>
-    <form method="post" enctype="multipart/form-data">
-        {{ delete_form.as_p }}
-        {% csrf_token %}
-        <button type="submit" >Supprimer</button>
-    </form>
+{% block content %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <div class="content">
+        <h2>Modifier ma demande de critique</h2>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                {{ edit_form.as_p }}
+            </div>
+            {% csrf_token %}
+            <button class="button" type="submit">Sauvegarder</button>
+        </form>
+        <hr>
+        <h3>Voulez-vous supprimer votre demande de critique ?</h3>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                {{ delete_form.as_p }}
+            </div>
+            {% csrf_token %}
+            <button class="button" type="submit">Supprimer</button>
+        </form>
+    </div>
 {% endblock content %}

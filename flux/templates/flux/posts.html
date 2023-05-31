@@ -1,78 +1,67 @@
 {% extends 'base.html' %}
+
 {% block content %}
-{%  if user.is_authenticated %}
+{% if user.is_authenticated %}
 
 <div class="header">
     <div class="case">
-        <p><input type=button onclick=window.location.href="{% url 'create_ticket'%}"; value="Demander une critique" /></p>
+        <p><a class="button" href="{% url 'create_ticket' %}">Demander une critique</a></p>
     </div>
     <div class="case">
-        <p><input type=button onclick=window.location.href="{% url 'create_review_ticket'%}"; value="Créer une critique" /></p>
+        <p><a class="button" href="{% url 'create_review_ticket' %}">Créer une critique</a></p>
     </div>
 </div>
+
 <div class="content">
-
-
     <h2>Vos posts</h2>
     {% for post in posts %}
         {% if post.content_type == "TICKET" %}
             <div class="border">
                 {% if post.user == user %}
-                    Vous avez publié un ticket
+                    <p>Vous avez publié un ticket</p>
                 {% else %}
-                    {{ post.user }} a demandé une critique
+                    <p>{{ post.user }} a demandé une critique</p>
                 {% endif %}
-                {{ post.time_created }}
-
+                <p>{{ post.time_created }}</p>
                 <p>{{ post.title }}</p>
-                <p>{{ post.description}}</p>
-                <p>
+                <p>{{ post.description }}</p>
                 {% if post.image %}
-                    <img src="{{ post.image.url }}">
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
                 {% endif %}
                 <p>
-                    <input type=button onclick=window.location.href="{% url 'create_review' post.id %}"; value="Créer une critique" />
-                    <input type=button onclick=window.location.href="{% url 'edit_ticket' post.id %}"; value="Modifier la demande" />
-                </p>
+                    <a class="button" href="{% url 'create_review' post.id %}">Créer une critique</a>
+                    <a class="button" href="{% url 'edit_ticket' post.id %}">Modifier la demande</a>
                 </p>
             </div>
         {% else %}
             <div class="border">
                 {% if post.user == user %}
-                    Vous avez publié une critique
+                    <p>Vous avez publié une critique</p>
                 {% else %}
-                    {{ post.user }} a publié une critique
+                    <p>{{ post.user }} a publié une critique</p>
                 {% endif %}
-                {{ post.time_created }}
-
+                <p>{{ post.time_created }}</p>
                 <p>{{ post.headline }}</p>
                 <p>{{ post.rating }}</p>
                 <p>{{ post.body }}</p>
-                <input type=button onclick=window.location.href="{% url 'edit_review' post.id %}"; value="Modifier la critique" />
-
+                <p><a class="button" href="{% url 'edit_review' post.id %}">Modifier la critique</a></p>
                 <div class="border">
                     {% if post.ticket.user == user %}
-                        Ticket - Vous
+                        <p>Ticket - Vous</p>
                     {% else %}
-                        Ticket - {{ post.ticket.user }}
+                        <p>Ticket - {{ post.ticket.user }}</p>
                     {% endif %}
-                    {{ post.ticket.time_created }}
-
+                    <p>{{ post.ticket.time_created }}</p>
                     <p>{{ post.ticket.title }}</p>
                     <p>{{ post.ticket.description }}</p>
-                    <p>
-                        {% if post.ticket.image %}
-                            <img src="{{ post.ticket.image.url }}">
-                        {% endif %}
-                    </p>
+                    {% if post.ticket.image %}
+                        <img src="{{ post.ticket.image.url }}" alt="{{ post.ticket.title }}">
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
     {% endfor %}
-
-
 </div>
-
 
 {% endif %}
 {% endblock content %}

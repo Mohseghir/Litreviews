@@ -13,66 +13,116 @@ section {
     width: 100%;
     padding: 5px;
     text-align: center;
-  }
+}
 
 nav {
-  display: flex;
-  width: 100%;
-  padding: 5px;
-  text-align: justify;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 5px;
+    text-align: justify;
+    background-color: #f8f8f8;
+    color: #333;
+    font-weight: bold;
+}
+
+nav a {
+    margin-right: 10px;
+    color: #333;
+    text-decoration: none;
 }
 
 div {
-  align-items: left;
-  justify-content: left;
-
+    align-items: left;
+    justify-content: left;
 }
 
 img {
-  width: 10%;
-  border-radius: 5px;
-
+    width: 10%;
+    border-radius: 5px;
 }
 
 table, th, td {
-  border:1px solid black;
+    border: 1px solid black;
 }
 
 .border {
     border: solid 1px #000000;
-    background-color:#ffffff;
+    background-color: #ffffff;
     width: 100%;
-  }
+}
 
-.header{
+.header {
     display: flex;
-      justify-content: space-around;
-  }
+    justify-content: space-around;
+    background-color: #f8f8f8;
+    color: #333;
+    font-weight: bold;
+}
 
-.case{
+.case {
     width: 45%;
     padding: 5px;
-  }
+}
 
-.content{
+.content {
     width: 95%;
     padding: 5px;
-  }
-
-.rating {
-  direction: rtl;
 }
-.rating a {
-  float: right;
-  color: #aaa;
-  text-decoration: none;
-  font-size: 3em;
-  transition: color .4s;
- }
- .rating a:hover,
- .rating a:focus,
- .rating a:hover ~ a,
- .rating a:focus ~ a {
-    color: orange;
+
+#id_rating {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #555;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    padding: 5px;
+    width: 20%;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+.form-group input[type="submit"] {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    border: none;
     cursor: pointer;
- }
+}
+
+.form-group input[type="submit"]:hover {
+    background-color: #555;
+}

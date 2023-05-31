@@ -1,18 +1,31 @@
 {% extends 'base.html' %}
-{% block content %}
-<div class="header">
+{% load static %}
 
+{% block title %}
+Connexion
+{% endblock title%}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<div class="header">
     <div class="case">
-    <p>Inscrivez-vous maintenant</p>
-    <p><input type=button onclick=window.location.href="{% url 'signup'%}"; value="S'inscrire" /></p>
+        <p>Inscrivez-vous maintenant</p>
+        <p><a class="button" href="{% url 'signup' %}">S'inscrire</a></p>
     </div>
     <div class="case">
-    <p>{{ message }}</p>
-    <form method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <button type="submit" >Se connecter</button>
-    </form>
+        <p>{{ message }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+            </div>
+            <p><button class="button" type="submit">Se connecter</button></p>
+        </form>
     </div>
 </div>
 {% endblock content %}

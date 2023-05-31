@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}
 Bienvenue
 {% endblock title%}
 
-
 {% block content %}
-{%  if user.is_authenticated %}
+{% if user.is_authenticated %}
 
 <div class="header">
     <div class="case">
-        <p><input type=button onclick=window.location.href="{% url 'create_ticket'%}"; value="Demander une critique" /></p>
+        <p><a class="button" href="{% url 'create_ticket' %}">Demander une critique</a></p>
     </div>
     <div class="case">
-        <p><input type=button onclick=window.location.href="{% url 'create_review_ticket'%}"; value="Créer une critique" /></p>
+        <p><a class="button" href="{% url 'create_review_ticket' %}">Créer une critique</a></p>
     </div>
 </div>
+
 <div class="content">
     {% for post in posts %}
         {% if post.content_type == "TICKET" %}
@@ -29,21 +29,15 @@ Bienvenue
                     {{ post.time_created }}
                 </p>
                 <p>{{ post.title }}</p>
-                <p>{{ post.description}}</p>
-                <p>
-                    {% if post.image %}
-                        <img src="{{ post.image.url }}">
-                    {% endif %}
-                    {% if post.reviews.ticket.user == user %}
-                        Vous avez déjà publié pour ce ticket
-                    {% else %}
-                        {% if post.is_reviewed == False %}
-                        <p>
-                            <input type=button onclick=window.location.href="{% url 'create_review' post.id %}"; value="Créer une critique" />
-                        </p>
-                        {% endif %}
-                    {% endif %}
-                </p>
+                <p>{{ post.description }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                {% endif %}
+                {% if post.reviews.ticket.user == user %}
+                    <p>Vous avez déjà publié pour ce ticket</p>
+                {% elif not post.is_reviewed %}
+                    <p><a class="button" href="{% url 'create_review' post.id %}">Créer une critique</a></p>
+                {% endif %}
             </div>
         {% else %}
             <div class="border">
@@ -64,15 +58,14 @@ Bienvenue
                     </p>
                     <p>{{ post.ticket.title }}</p>
                     <p>{{ post.ticket.description }}</p>
-                    <p>
-                        {% if post.ticket.image %}
-                            <img src="{{ post.ticket.image.url }}">
-                        {% endif %}
-                    </p>
+                    {% if post.ticket.image %}
+                        <img src="{{ post.ticket.image.url }}" alt="{{ post.ticket.title }}">
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
     {% endfor %}
 </div>
+
 {% endif %}
 {% endblock content %}
