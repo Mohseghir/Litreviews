@@ -172,9 +172,12 @@ def follow_users(request):
             except User.DoesNotExist:
                 user = None
 
-            if user:
+            if user and user != request.user:  # Vérification si l'utilisateur n'est pas lui-même
                 UserFollows.objects.create(user=request.user, followed_user=user)
                 return redirect("follow_users")
+            else:
+                # Ajouter un message d'erreur indiquant que l'abonnement à soi-même n'est pas autorisé
+                messages.error(request, "Vous ne pouvez pas vous abonner à vous-même.")
     else:
         form = FollowUsersForm()
 

@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.conf import settings
 from django.db import models
 from PIL import Image
+from django.core.exceptions import ValidationError
 
 
 class Ticket(models.Model):
@@ -44,7 +45,6 @@ class Review(models.Model):
 
 
 class UserFollows(models.Model):
-    """model pour les abonnées"""
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -64,3 +64,11 @@ class UserFollows(models.Model):
             "user",
             "followed_user",
         )
+
+    def clean(self):
+        if self.user == self.followed_user:
+            raise ValidationError("Un utilisateur ne peut pas s'abonner à lui-même.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
