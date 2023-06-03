@@ -11,7 +11,7 @@ Pour utiliser l'outil il vous faut :
 
 Installation
 
-Téléchargez le repository en utilisant la commande suivante : git clone https://https://github.com/Mohseghir/Litreviews
+Téléchargez le repository en utilisant la commande suivante : git clone https://github.com/Mohseghir/Litreviews
 
 Positionnez-vous dans le dossier : Litreviews
 
