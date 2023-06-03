@@ -11,11 +11,11 @@ Pour utiliser l'outil il vous faut :
 
 Installation
 
-Téléchargez le repository en utilisant la commande suivante : git clone https://github.com/Mohseghir/Litreviews
+Téléchargez le repository en utilisant la commande suivante : `git clone https://github.com/Mohseghir/Litreviews`
 
 Positionnez-vous dans le dossier : Litreviews
 
-Activez l'environnement virtuel en utilisant :
+créez et activez l'environnement virtuel en utilisant :
 
 `python3 -m venv env`
 
